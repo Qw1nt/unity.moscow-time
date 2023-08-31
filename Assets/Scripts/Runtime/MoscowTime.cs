@@ -4,6 +4,6 @@ namespace Runtime
 {
     public class MoscowTime
     {
-        public DateTime Datetime { get; set; }
+        public DateTimeOffset Datetime { get; set; }
     }
 }

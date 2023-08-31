@@ -10,6 +10,11 @@ namespace Runtime
 {
     public class TimeController : MonoBehaviour
     {
+        private readonly JsonSerializerSettings _serializerSettings = new()
+        {
+            DateTimeZoneHandling = DateTimeZoneHandling.Utc
+        };
+
         [DllImport("__Internal")]
         private static extern void Alert(string message);
 
@@ -27,8 +32,8 @@ namespace Runtime
                     .Get("https://worldtimeapi.org/api/timezone/Europe/Moscow")
                     .SendWebRequest();
 
-                var data = JsonConvert.DeserializeObject<MoscowTime>(response.downloadHandler.text);
-                Alert(data?.Datetime.ToString(CultureInfo.InvariantCulture));
+                var data = JsonConvert.DeserializeObject<MoscowTime>(response.downloadHandler.text, _serializerSettings);
+                Alert(data.Datetime.DateTime.ToString(CultureInfo.InvariantCulture));
             }
             catch
             {
